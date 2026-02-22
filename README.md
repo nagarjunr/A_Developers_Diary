@@ -87,6 +87,7 @@ This repository serves as a comprehensive knowledge base for developers working 
 ### DevOps & Kubernetes
 - [Multi-Tier Application Architecture](devops/kubernetes/multi-tier-application-architecture.md) - Deploying scalable apps on K8s
 - [Secrets Management Strategies](devops/kubernetes/secrets-management-strategies.md)
+- [nginx Proxy Buffer Errors in OpenShift](devops/kubernetes/nginx-proxy-buffer-errors-openshift.md) - Troubleshooting ERR_CONTENT_LENGTH_MISMATCH
 - [Terraform IaC Workflow Guide](devops/terraform/iac-workflow-guide.md)
 
 ### Full-Stack Development
