@@ -170,6 +170,45 @@ docker build \
 - Private Git dependencies (internal PyPI-style installs, monorepo shared libraries) needed during `pip install` / `npm install`
 - Building on Apple Silicon for an x86_64 deployment target
 
+## Key Takeaways
+
+### The Mental Model
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#1f77b4','primaryTextColor':'#fff','primaryBorderColor':'#145a8c','lineColor':'#5a5a5a','secondaryColor':'#ff7f0e','tertiaryColor':'#2ca02c'}}}%%
+flowchart TD
+    A[docker build]:::orange
+    B[Host shell env<br/>HTTP_PROXY, HTTPS_PROXY ✓]:::green
+    C[RUN step<br/>Clean, isolated env ✗]:::red
+    D[Fix: --build-arg +<br/>--add-host=host-gateway]:::blue
+    E[Fix: COPY combined_ca.pem +<br/>REQUESTS_CA_BUNDLE]:::blue
+    F[Fix: --secret id=git_token<br/>not baked into layers]:::blue
+    G[Build succeeds,<br/>image stays clean ✓]:::teal
+
+    A --> B
+    A --> C
+    C --> D
+    C --> E
+    C --> F
+    D --> G
+    E --> G
+    F --> G
+
+    classDef orange fill:#F39C12,stroke:#BA7A0A,color:#fff
+    classDef green fill:#50C878,stroke:#2E8B57,color:#fff
+    classDef red fill:#E74C3C,stroke:#A93226,color:#fff
+    classDef blue fill:#4A90E2,stroke:#2E5C8A,color:#fff
+    classDef teal fill:#1ABC9C,stroke:#138D75,color:#fff
+```
+
+### Remember
+
+1. **`RUN` steps never inherit your shell's proxy env** - pass proxy vars as `--build-arg`, explicitly
+2. **`host.docker.internal` isn't automatic on Linux** - `--add-host=host.docker.internal:host-gateway` wires it up
+3. **SSL interception needs the corporate CA inside the image** - copy the combined bundle in, point `REQUESTS_CA_BUNDLE`/`SSL_CERT_FILE`/`CURL_CA_BUNDLE` at it
+4. **Tokens in `ARG` land in `docker history`** - use BuildKit `--secret` for anything sensitive
+5. **`--platform linux/amd64` matters on Apple Silicon** - or the image won't even start on an x86 cluster
+
 ---
 
 ## Related
