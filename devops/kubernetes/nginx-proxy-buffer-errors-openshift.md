@@ -5,7 +5,6 @@
 When deploying React frontends with nginx proxies to backend APIs in OpenShift/Kubernetes, you may encounter `ERR_CONTENT_LENGTH_MISMATCH` errors when fetching large JSON responses. This guide explains the root cause and provides a complete solution.
 
 **Compiled by:** Nagarjun Rajendran
-**Last Updated:** February 2026
 **Topics:** OpenShift, Kubernetes, nginx, Proxy Configuration, Troubleshooting
 
 ---
@@ -773,5 +772,3 @@ GitHub: https://github.com/nagarjunr/developers-guide
 Found an error or have suggestions? Open an issue in the repository.
 
 ---
-
-*Last updated: February 2026*

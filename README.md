@@ -156,5 +156,3 @@ This is a personal knowledge repository, but community input is valued:
 - 💬 **Feedback**: Share how you're using the content
 
 ---
-
-*Last updated: February 2026*
